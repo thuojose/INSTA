@@ -10,7 +10,7 @@ urlpatterns = [
     path('like/<int:image_id>',views.likes,name='likes'),
     path('comment/<int:image_id>',views.comments,name='comments'),
     path('search/', views.search_results,name='searchresults'),
-      
+    path('profile/',views.profilePage,name='instagramProfile'),
      ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
