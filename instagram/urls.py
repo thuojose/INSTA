@@ -7,8 +7,10 @@ from django.urls import path
 urlpatterns = [
     path('',views.landing,name='instagramLandingPage'),
     path('home/',views.home,name='instagramHome'),
-     path('like/<int:image_id>',views.likes,name='likes'),
+    path('like/<int:image_id>',views.likes,name='likes'),
     path('comment/<int:image_id>',views.comments,name='comments'),
-       ]
+    path('search/', views.search_results,name='searchresults'),
+      
+     ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
