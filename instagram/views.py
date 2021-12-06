@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,Http404,HttpResponseRedirect
+from .forms import LikesForm, CommentsForm
 
 # Create your views here.
 #landing page
@@ -26,3 +27,30 @@ def home(request):
     
     
     return render(request,'instagram_pages/home.html', locals())
+
+def likes(request,image_id):
+    likesForm = LikesForm()
+    if request.method == 'POST':
+        likesForm = LikesForm(request.POST)
+    if likesForm.is_valid():
+            form = likesForm.save(commit=False)
+            form.user=request.user
+            form.image= get_object_or_404(Image,pk=image_id)
+            form.like= 1
+            form.save()     
+    obj1=Like.objects.create(user=request.user,image=get_object_or_404(Image,pk=image_id),likes=1)
+    obj1.save()
+    print(obj1)
+    return redirect('instagramHome')
+
+def comments(request,image_id):
+    commentsForm = CommentsForm()
+    if request.method == 'POST':
+        commentsForm = CommentsForm(request.POST)
+        if commentsForm.is_valid():
+            form = commentsForm.save(commit=False)
+            form.user=request.user
+            form.image = get_object_or_404(Image,pk=image_id)
+            form.save()
+  
+    return redirect('instagramHome')
