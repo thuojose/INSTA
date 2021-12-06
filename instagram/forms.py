@@ -1,4 +1,6 @@
 from django import forms
+from .models import *
+from pyuploadcare.dj.forms import ImageField
 
 class LikesForm(forms.Form):
     class Meta:
@@ -10,3 +12,13 @@ class CommentsForm(forms.ModelForm):
         model = Comment
         exclude = ['image', 'user']
         
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields=['prof_pic','bio']
+    
+class UploadPicForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = '__all__'
+        exclude = ('user','profile')    
