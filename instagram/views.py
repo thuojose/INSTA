@@ -134,3 +134,32 @@ def updateProfile(request):
         updateForm = UpdateProfileForm(instance=request.user.profile)
 
     return render(request,'instagram_pages/update_profile.html', locals())
+
+#upload feed/pic/video page
+@login_required(login_url='/accounts/login')
+def uploadPic(request):
+    current_user = request.user
+    pic = Image(user = request.user,profile = request.user.profile)
+    my_prof = Profile.objects.get(id=current_user.id)
+    uploadForm = UploadPicForm()
+    print(uploadForm)
+    uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
+ 
+
+    if request.method == 'POST':
+        uploadForm = UploadPicForm(request.POST,request.FILES,instance=pic)
+        profile = request.user.username
+        uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
+        user = request.user.id
+
+        if uploadForm.is_valid():
+            uploadForm.save()
+
+        
+            
+        return redirect('instagramProfile')
+    else:
+        uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
+        uploadForm = UploadPicForm(instance=pic)
+
+        return render(request,'instagram_pages/upload_pic.html', locals())
